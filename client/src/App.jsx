@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './features/authentication/Login';
-import SignUp from './features/authentication/SignUp';
+import SignUp from './features/authentication/Signup';
 import Suggestions from './features/suggestions/Suggestions';
 import Suggestion from './features/suggestions/Suggestion';
 
