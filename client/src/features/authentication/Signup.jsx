@@ -5,6 +5,10 @@ import FormControl from '../../ui/FormControl';
 import { validateSignup } from './validations';
 import { useSignup } from './useSignup';
 
+const uid = function () {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2);
+};
+
 function Signup() {
   const { isSigninIn, signup } = useSignup();
   function onSubmit(values) {
@@ -12,6 +16,7 @@ function Signup() {
       user_name: values.userName,
       password: values.password,
       email: values.email,
+      avatar_url: `https://i.pravatar.cc/48?u=${uid()}`,
     };
     signup(formValues, {
       onError: error => {
