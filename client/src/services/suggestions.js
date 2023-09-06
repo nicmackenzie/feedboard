@@ -12,3 +12,15 @@ export async function getCategories() {
     );
   }
 }
+
+export async function getSuggestions() {
+  try {
+    const { data } = await axios.get(API_URL + '/suggestions');
+
+    return data;
+  } catch (error) {
+    throw new Error(
+      error.response.data?.errors || 'Something went wrong with this request'
+    );
+  }
+}
