@@ -1,10 +1,7 @@
 Rails.application.routes.draw do
   resources :suggestions
-  resources :comments
-  resources :categories
-  resources :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  post 'signup', to: 'users#create'
+  post 'login', to: 'users#show'
+  delete 'logout', to: 'users#logout'
 end
