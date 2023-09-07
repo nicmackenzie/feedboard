@@ -83,9 +83,19 @@ function SuggestionForm({ onSetDisplayForm }) {
           onChange={handleChange}
           error={touched.description && errors.description}
         />
-        <Button type="submit" isLoading={isAdding}>
-          Add Suggestion
-        </Button>
+        <div className="space-x-2">
+          <Button type="submit" isLoading={isAdding}>
+            Add Suggestion
+          </Button>
+          <Button
+            type="button"
+            isLoading={isAdding}
+            isDelete={true}
+            onClick={() => onSetDisplayForm(false)}
+          >
+            Cancel
+          </Button>
+        </div>
       </div>
     </form>
   );
