@@ -4,7 +4,7 @@ import FormControl from '../../ui/FormControl';
 
 function Login() {
   return (
-    <form className="max-w-xl bg-white shadow-sm rounded-sm p-4 mx-auto mt-12 space-y-4">
+    <form className="max-w-md bg-white shadow-sm rounded-sm p-4 mx-auto mt-12 space-y-4">
     <h1 className="text-clr-purple text-center font-bold text-2xl">
       Enter your information to Log in
     </h1>

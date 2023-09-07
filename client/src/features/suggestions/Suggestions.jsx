@@ -1,5 +1,5 @@
 function Home() {
-  return <div>Home</div>;
+  return <main className="bg-white md:max-w-xl mx-auto md:shadow-lg md:rounded-lg">Home</main>;
 }
 
 export default Home;
