@@ -30,9 +30,9 @@ function Loading() {
   );
 }
 
-function Category({ category }) {
+export function Category({ category }) {
   return (
-    <span className="inline-block px-4 py-2 bg-clr-blue-primary transition-colors hover:opacity-80 text-white cursor-pointer rounded-md text-sm ">
+    <span className="inline-block px-4 py-2 bg-violet-100 transition-colors hover:bg-violet-200 text-clr-blue-primary font-semibold cursor-pointer rounded-md text-sm ">
       {category}
     </span>
   );
