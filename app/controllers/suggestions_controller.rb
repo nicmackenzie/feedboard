@@ -16,6 +16,12 @@ class SuggestionsController < ApplicationController
         render json: suggestion
     end
 
+    def destroy
+        suggestion = Suggestion.find(params[:id])
+        suggestion.destroy
+        head :no_content
+    end
+
     private
 
     def suggestion_params
