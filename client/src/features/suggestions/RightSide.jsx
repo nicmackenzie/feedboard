@@ -49,7 +49,7 @@ function Header({ count }) {
   );
 }
 
-function Suggestion({ suggestion }) {
+export function Suggestion({ suggestion }) {
   return (
     <article className="bg-white rounded-lg shadow-md p-6 flex items-center gap-8">
       <UpVoteButton upvotes={suggestion.upvotes} />
@@ -62,7 +62,7 @@ function Suggestion({ suggestion }) {
       <div className="ml-auto text-gray-200 flex items-center gap-2">
         <BiSolidMessageRounded size={24} />
         <div className="text-2xl font-bold text-clr-gray-primary">
-          {suggestion.comments.length}
+          {suggestion.comments?.length || 0}
         </div>
       </div>
     </article>
