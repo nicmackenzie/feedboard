@@ -48,3 +48,18 @@ export async function addComment(commentDetails) {
     );
   }
 }
+
+export async function addSuggestion(suggestionDetails) {
+  try {
+    const { data } = await axios.post(
+      API_URL + '/suggestions',
+      suggestionDetails
+    );
+
+    return data;
+  } catch (error) {
+    throw new Error(
+      error.response.data?.errors || 'Something went wrong with this request'
+    );
+  }
+}

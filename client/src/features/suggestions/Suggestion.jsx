@@ -14,7 +14,11 @@ function Suggestion() {
 
   return (
     <div className="max-w-3xl mx-auto mt-12 space-y-6">
-      <Header isLoading={isLoadingSuggestion} loggedInUser={loggedInUser} />
+      <Header
+        isLoading={isLoadingSuggestion}
+        loggedInUser={loggedInUser}
+        userId={suggestion.user_id}
+      />
       <SuggestionComponent suggestion={suggestion} />
       <NewComment loggedInUser={loggedInUser} suggestionId={suggestion.id} />
       <Comments comments={suggestion?.comments || []} />
@@ -22,7 +26,7 @@ function Suggestion() {
   );
 }
 
-function Header({ isLoading, loggedInUser }) {
+function Header({ isLoading, loggedInUser, userId }) {
   return (
     <header className="flex items-center justify-between">
       <Link to=".." className="flex items-center gap-1 text-clr-gray-primary">
@@ -31,7 +35,14 @@ function Header({ isLoading, loggedInUser }) {
           Go Back
         </span>
       </Link>
-      <Button disabled={isLoading || !loggedInUser}>Edit Feedback</Button>
+      {+loggedInUser?.id === +userId && (
+        <div className="space-x-2">
+          <Button disabled={isLoading}>Edit Feedback</Button>
+          <Button disabled={isLoading} isDelete={true}>
+            Delete Feedback
+          </Button>
+        </div>
+      )}
     </header>
   );
 }

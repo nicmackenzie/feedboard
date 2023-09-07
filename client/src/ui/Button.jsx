@@ -1,9 +1,9 @@
-function Button({ children, type, isLoading, disabled, onClick }) {
+function Button({ children, type, isLoading, disabled, onClick, isDelete }) {
   return (
     <button
       type={type}
       disabled={disabled || isLoading}
-      className="btn"
+      className={`${!isDelete ? 'btn' : 'btn-danger'}`}
       onClick={onClick}
     >
       {children}

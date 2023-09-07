@@ -1,5 +1,5 @@
 class SuggestionSerializer < ActiveModel::Serializer
-  attributes :id, :title, :description, :upvotes, :category
+  attributes :id, :title, :description, :upvotes, :user_id, :category
   
   has_many :comments
 
