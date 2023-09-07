@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_06_072826) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_06_192547) do
   create_table "categories", force: :cascade do |t|
     t.string "category"
     t.datetime "created_at", null: false
@@ -31,10 +31,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_06_072826) do
     t.string "title"
     t.string "description"
     t.integer "category_id", null: false
-    t.integer "upvotes"
+    t.integer "upvotes", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
+    t.integer "user_id"
     t.index ["category_id"], name: "index_suggestions_on_category_id"
   end
 

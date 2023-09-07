@@ -18,6 +18,9 @@ export default {
       height: {
         dvh: '100dvh',
       },
+      gridTemplateColumns: {
+        home: '20% 80%',
+      },
     },
     fontFamily: {
       sans: ['Jost', 'sans-serif'],
