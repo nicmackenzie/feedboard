@@ -64,7 +64,7 @@ function SuggestionForm({ onSetDisplayForm }) {
           error={touched.title && errors.title}
         />
         <FormSelect
-          label="Description"
+          label="Category"
           id="category"
           name="category"
           options={options}
