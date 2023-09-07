@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 import { useUser } from '../../context/user-context';
 import { useGetSuggestions } from './useGetSuggestions';
 import { Category } from './LeftSide';
+import Button from '../../ui/Button';
 
-function RightSide() {
+function RightSide({ onSetDisplayForm }) {
   const { isLoadingSuggestions, suggestions } = useGetSuggestions();
   if (isLoadingSuggestions)
     return (
@@ -15,7 +16,7 @@ function RightSide() {
     );
   return (
     <div className="space-y-6">
-      <Header count={suggestions.length} />
+      <Header count={suggestions.length} onSetDisplayForm={onSetDisplayForm} />
       {suggestions.length > 0 ? (
         suggestions.map(suggestion => (
           <Suggestion key={suggestion.id} suggestion={suggestion} />
@@ -27,7 +28,7 @@ function RightSide() {
   );
 }
 
-function Header({ count }) {
+function Header({ count, onSetDisplayForm }) {
   const { loggedInUser } = useUser();
   return (
     <header className="bg-clr-gray-secondary rounded-lg px-4 py-2 flex items-center justify-between text-clr-white-primary">
@@ -37,19 +38,26 @@ function Header({ count }) {
           {count || 0} {count > 1 ? 'Suggestions' : 'Suggestion'}
         </span>
       </div>
-      <Link
+      <Button
+        type="button"
+        disabled={!loggedInUser}
+        onClick={() => onSetDisplayForm(true)}
+      >
+        Add Suggestion
+      </Button>
+      {/* <Link
         to="/new-suggestion"
         className={`btn ${
           !loggedInUser ? 'pointer-events-none opacity-50' : ''
         }`}
       >
         Add Suggestion
-      </Link>
+      </Link> */}
     </header>
   );
 }
 
-function Suggestion({ suggestion }) {
+export function Suggestion({ suggestion }) {
   return (
     <article className="bg-white rounded-lg shadow-md p-6 flex items-center gap-8">
       <UpVoteButton upvotes={suggestion.upvotes} />
@@ -62,7 +70,7 @@ function Suggestion({ suggestion }) {
       <div className="ml-auto text-gray-200 flex items-center gap-2">
         <BiSolidMessageRounded size={24} />
         <div className="text-2xl font-bold text-clr-gray-primary">
-          {suggestion.comments.length}
+          {suggestion.comments?.length || 0}
         </div>
       </div>
     </article>
