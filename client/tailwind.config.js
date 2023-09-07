@@ -20,6 +20,10 @@ export default {
       },
       gridTemplateColumns: {
         home: '20% 80%',
+        comment: '48px auto',
+      },
+      borderRadius: {
+        rounded: '50%',
       },
     },
     fontFamily: {
