@@ -63,3 +63,13 @@ export async function addSuggestion(suggestionDetails) {
     );
   }
 }
+
+export async function deleteSuggestion(suggestionId) {
+  try {
+    await axios.delete(API_URL + '/suggestions/' + suggestionId);
+  } catch (error) {
+    throw new Error(
+      error.response.data?.errors || 'Something went wrong with this request'
+    );
+  }
+}

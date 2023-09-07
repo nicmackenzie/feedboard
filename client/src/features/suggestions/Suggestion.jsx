@@ -8,6 +8,7 @@ import { useFormik } from 'formik';
 import { Suggestion as SuggestionComponent } from './RightSide';
 import { validateComment } from './validation';
 import { useAddComment } from './useAddComment';
+import { useDeleteSuggestion } from './useDeleteSuggestion';
 function Suggestion() {
   const { isLoadingSuggestion, suggestion = {} } = useGetSuggestion();
   const { loggedInUser } = useUser();
@@ -18,6 +19,7 @@ function Suggestion() {
         isLoading={isLoadingSuggestion}
         loggedInUser={loggedInUser}
         userId={suggestion.user_id}
+        suggestionId={suggestion.id}
       />
       <SuggestionComponent suggestion={suggestion} />
       <NewComment loggedInUser={loggedInUser} suggestionId={suggestion.id} />
@@ -26,7 +28,8 @@ function Suggestion() {
   );
 }
 
-function Header({ isLoading, loggedInUser, userId }) {
+function Header({ isLoading, loggedInUser, userId, suggestionId }) {
+  const { isDeleting, deleteSuggestion } = useDeleteSuggestion();
   return (
     <header className="flex items-center justify-between">
       <Link to=".." className="flex items-center gap-1 text-clr-gray-primary">
@@ -37,8 +40,12 @@ function Header({ isLoading, loggedInUser, userId }) {
       </Link>
       {+loggedInUser?.id === +userId && (
         <div className="space-x-2">
-          <Button disabled={isLoading}>Edit Feedback</Button>
-          <Button disabled={isLoading} isDelete={true}>
+          <Button disabled={isLoading || isDeleting}>Edit Feedback</Button>
+          <Button
+            disabled={isLoading || isDeleting}
+            isDelete={true}
+            onClick={() => deleteSuggestion(suggestionId)}
+          >
             Delete Feedback
           </Button>
         </div>
