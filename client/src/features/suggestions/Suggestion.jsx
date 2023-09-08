@@ -9,7 +9,11 @@ import { Suggestion as SuggestionComponent } from './RightSide';
 import { validateComment } from './validation';
 import { useAddComment } from './useAddComment';
 import { useDeleteSuggestion } from './useDeleteSuggestion';
+import { useState } from 'react';
+import SuggestionForm from './SuggestionForm';
+
 function Suggestion() {
+  const [displaySuggestionForm, setDisplaySuggestionForm] = useState(false);
   const { isLoadingSuggestion, suggestion = {} } = useGetSuggestion();
   const { loggedInUser } = useUser();
 
@@ -20,15 +24,35 @@ function Suggestion() {
         loggedInUser={loggedInUser}
         userId={suggestion.user_id}
         suggestionId={suggestion.id}
+        onSetDisplayForm={setDisplaySuggestionForm}
       />
-      <SuggestionComponent suggestion={suggestion} />
-      <NewComment loggedInUser={loggedInUser} suggestionId={suggestion.id} />
-      <Comments comments={suggestion?.comments || []} />
+      {!displaySuggestionForm ? (
+        <>
+          <SuggestionComponent suggestion={suggestion} />
+          <NewComment
+            loggedInUser={loggedInUser}
+            suggestionId={suggestion.id}
+          />
+          <Comments comments={suggestion?.comments || []} />{' '}
+        </>
+      ) : (
+        <SuggestionForm
+          onSetDisplayForm={setDisplaySuggestionForm}
+          suggestion={suggestion}
+          isEdit={true}
+        />
+      )}
     </div>
   );
 }
 
-function Header({ isLoading, loggedInUser, userId, suggestionId }) {
+function Header({
+  isLoading,
+  loggedInUser,
+  userId,
+  suggestionId,
+  onSetDisplayForm,
+}) {
   const { isDeleting, deleteSuggestion } = useDeleteSuggestion();
   return (
     <header className="flex items-center justify-between">
@@ -40,7 +64,12 @@ function Header({ isLoading, loggedInUser, userId, suggestionId }) {
       </Link>
       {+loggedInUser?.id === +userId && (
         <div className="space-x-2">
-          <Button disabled={isLoading || isDeleting}>Edit Feedback</Button>
+          <Button
+            disabled={isLoading || isDeleting}
+            onClick={() => onSetDisplayForm(true)}
+          >
+            Edit Feedback
+          </Button>
           <Button
             disabled={isLoading || isDeleting}
             isDelete={true}
@@ -63,19 +92,22 @@ function NewComment({ loggedInUser, suggestionId }) {
           You must be logged in to comment
         </p>
       ) : (
-        <NewCommentForm suggestionId={suggestionId} />
+        <NewCommentForm
+          suggestionId={suggestionId}
+          userId={loggedInUser?.id || 1}
+        />
       )}
     </div>
   );
 }
 
-function NewCommentForm({ suggestionId }) {
+function NewCommentForm({ suggestionId, userId }) {
   const { isCommenting, addComment } = useAddComment();
 
   function onSubmit(values) {
     const formFields = {
       suggestion_id: suggestionId,
-      user_id: 1,
+      user_id: userId,
       comment: values.comment,
     };
     addComment(formFields);

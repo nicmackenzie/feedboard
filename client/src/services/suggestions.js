@@ -73,3 +73,18 @@ export async function deleteSuggestion(suggestionId) {
     );
   }
 }
+
+export async function editSuggestion(id, suggestionDetails) {
+  try {
+    const { data } = await axios.patch(
+      API_URL + '/suggestions/' + id,
+      suggestionDetails
+    );
+
+    return data;
+  } catch (error) {
+    throw new Error(
+      error.response.data?.errors || 'Something went wrong with this request'
+    );
+  }
+}
