@@ -14,6 +14,7 @@ function FormControl({
       <label htmlFor={id}>{label}</label>
       <input
         type={type}
+        id={id}
         className={`bg-gray-50 border ${
           error ? 'border-red-500' : 'border-gray-300'
         } text-gray-900 text-sm rounded-lg focus:outline-0 focus:ring-clr-purple focus:border-clr-purple block w-full p-2.5`}

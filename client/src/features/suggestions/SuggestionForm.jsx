@@ -6,10 +6,12 @@ import { useGetCategories } from './useGetCategories';
 import { validateAddSuggestion } from './validation';
 import { useUser } from '../../context/user-context';
 import { useAddSuggestion } from './useAddSuggestion';
+import { useEditSuggestion } from './useEditSuggestion';
 
-function SuggestionForm({ onSetDisplayForm }) {
+function SuggestionForm({ onSetDisplayForm, isEdit, suggestion }) {
   const { isLoadingCategories, categories } = useGetCategories();
   const { isAdding, addSuggestion } = useAddSuggestion();
+  const { isEditing, editSuggestion } = useEditSuggestion();
   const { loggedInUser } = useUser();
 
   function onSubmit(values) {
@@ -19,19 +21,30 @@ function SuggestionForm({ onSetDisplayForm }) {
       category_id: values.category,
       user_id: loggedInUser.id,
     };
-    addSuggestion(formFields, {
-      onSuccess: () => {
-        onSetDisplayForm(false);
-      },
-    });
+    if (!isEdit) {
+      addSuggestion(formFields, {
+        onSuccess: () => {
+          onSetDisplayForm(false);
+        },
+      });
+    } else {
+      editSuggestion(
+        { id: suggestion.id, suggestionDetails: formFields },
+        {
+          onSuccess: () => {
+            onSetDisplayForm(false);
+          },
+        }
+      );
+    }
   }
 
   const { handleBlur, handleChange, handleSubmit, values, touched, errors } =
     useFormik({
       initialValues: {
-        title: '',
-        category: '',
-        description: '',
+        title: isEdit ? suggestion.title : '',
+        category: isEdit ? suggestion.category_id : '',
+        description: isEdit ? suggestion.description : '',
       },
       onSubmit,
       validate: validateAddSuggestion,
@@ -50,7 +63,7 @@ function SuggestionForm({ onSetDisplayForm }) {
       onSubmit={handleSubmit}
     >
       <header className="p-4 bg-clr-purple text-clr-white-primary text-2xl text-center ">
-        <h2>Add Suggestion</h2>
+        <h2>{isEdit ? 'Edit Suggestion' : 'Add Suggestion'}</h2>
       </header>
       <div className="p-4 space-y-4">
         <FormControl
@@ -64,7 +77,7 @@ function SuggestionForm({ onSetDisplayForm }) {
           error={touched.title && errors.title}
         />
         <FormSelect
-          label="Description"
+          label="Category"
           id="category"
           name="category"
           options={options}
@@ -84,12 +97,12 @@ function SuggestionForm({ onSetDisplayForm }) {
           error={touched.description && errors.description}
         />
         <div className="space-x-2">
-          <Button type="submit" isLoading={isAdding}>
-            Add Suggestion
+          <Button type="submit" isLoading={isAdding || isEditing}>
+            {isEdit ? 'Edit Suggestion' : 'Add Suggestion'}
           </Button>
           <Button
             type="button"
-            isLoading={isAdding}
+            isLoading={isAdding || isEditing}
             isDelete={true}
             onClick={() => onSetDisplayForm(false)}
           >
