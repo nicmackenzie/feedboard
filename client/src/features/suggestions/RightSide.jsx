@@ -125,7 +125,7 @@ function SuggestionDetails({ id, title, description, category }) {
         {title}
       </Link>
       <p className="text-sm text-clr-gray-accent">{description}</p>
-      <Category category={category} />
+      <Category category={category} clickable={false} />
     </div>
   );
 }

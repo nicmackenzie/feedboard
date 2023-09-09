@@ -1,7 +1,7 @@
 import { FaSpinner } from 'react-icons/fa';
 import { useGetCategories } from './useGetCategories';
 import { useUser } from '../../context/user-context';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 function LeftSide() {
   const { loggedInUser, setUser } = useUser();
   const { isLoadingCategories, categories } = useGetCategories();
@@ -17,7 +17,11 @@ function LeftSide() {
           <Loading />
         ) : (
           [{ id: 'all', category: 'All' }, ...categories].map(category => (
-            <Category key={category.id} category={category.category} />
+            <Category
+              key={category.id}
+              category={category.category}
+              clickable={true}
+            />
           ))
         )}
       </div>
@@ -34,9 +38,25 @@ function Loading() {
   );
 }
 
-export function Category({ category }) {
+export function Category({ category, clickable }) {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const selected = searchParams.get('category') || 'all';
+
+  function handleClick() {
+    if (!clickable) return;
+    searchParams.set('category', String(category).toLowerCase());
+    setSearchParams(searchParams);
+  }
+
   return (
-    <span className="inline-block px-4 py-2 bg-violet-100 transition-colors hover:bg-violet-200 text-clr-blue-primary font-semibold cursor-pointer rounded-md text-sm ">
+    <span
+      onClick={handleClick}
+      className={`inline-block px-4 py-2 transition-colors ${
+        selected === String(category).toLowerCase() && clickable
+          ? 'bg-clr-blue-primary text-clr-white-primary hover:bg-clr-blue-secondary'
+          : 'bg-violet-100 hover:bg-violet-200 text-clr-blue-primary'
+      } font-semibold cursor-pointer rounded-md text-sm`}
+    >
       {category}
     </span>
   );
