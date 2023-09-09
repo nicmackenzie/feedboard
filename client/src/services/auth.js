@@ -12,3 +12,15 @@ export async function signup(userDetails) {
     );
   }
 }
+
+export async function login(userDetails) {
+  try {
+    const { data } = await axios.post(API_URL + '/login', userDetails);
+
+    return data;
+  } catch (error) {
+    throw new Error(
+      error.response.data?.errors || 'Something went wrong with this request'
+    );
+  }
+}
