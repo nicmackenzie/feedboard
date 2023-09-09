@@ -18,6 +18,13 @@ export default {
       height: {
         dvh: '100dvh',
       },
+      gridTemplateColumns: {
+        home: '20% 80%',
+        comment: '48px auto',
+      },
+      borderRadius: {
+        rounded: '50%',
+      },
     },
     fontFamily: {
       sans: ['Jost', 'sans-serif'],

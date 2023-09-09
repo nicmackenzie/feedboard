@@ -1,3 +1,3 @@
 class Category < ApplicationRecord
-    belongs_to :suggestion
+    has_many :suggestions
 end
