@@ -1,6 +1,7 @@
 class SuggestionsController < ApplicationController
     rescue_from ActiveRecord::RecordInvalid, with: :validate_unprocessable_entity
     rescue_from ActiveRecord::RecordNotFound, with: :suggestion_not_found
+    skip_before_action :authorized, only: [:index,:show]
     
     def index
         if !params[:category].present? or params[:category] == 'all'

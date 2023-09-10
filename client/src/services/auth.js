@@ -24,3 +24,13 @@ export async function login(userDetails) {
     );
   }
 }
+
+export async function logout() {
+  try {
+    await axios.delete(API_URL + '/logout');
+  } catch (error) {
+    throw new Error(
+      error.response.data?.errors || 'Something went wrong with this request'
+    );
+  }
+}

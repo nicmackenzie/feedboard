@@ -1,10 +1,26 @@
 class UsersController < ApplicationController
     rescue_from ActiveRecord::RecordInvalid, with: :validate_unprocessable_entity
+    skip_before_action :authorized, only: [:create,:show]
 
     def create
        user = User.create!(user_params)
        session[:user_id] = user.id
        render json: user,status: :created
+    end
+
+    def show
+        user = User.find_by(email: params[:email])
+        if user&.authenticate(params[:password])
+            session[:user_id] = user.id
+            render json: user,status: :created
+        else
+            render json: {error: 'Invalid email or password'},status: :unauthorized
+        end
+    end
+
+    def logout
+        session.delete :user_id
+        head :no_content
     end
 
     private
