@@ -2,6 +2,11 @@ import { FaSpinner } from 'react-icons/fa';
 import { useGetCategories } from './useGetCategories';
 import { useUser } from '../../context/user-context';
 import { Link, useSearchParams } from 'react-router-dom';
+
+// function capitalize(word) {
+//   return word.charAt(0).toUpperCase() + word.substring(1);
+// }
+
 function LeftSide() {
   const { loggedInUser, setUser } = useUser();
   const { isLoadingCategories, categories } = useGetCategories();
@@ -55,9 +60,9 @@ export function Category({ category, clickable }) {
         selected === String(category).toLowerCase() && clickable
           ? 'bg-clr-blue-primary text-clr-white-primary hover:bg-clr-blue-secondary'
           : 'bg-violet-100 hover:bg-violet-200 text-clr-blue-primary'
-      } font-semibold cursor-pointer rounded-md text-sm`}
+      } font-semibold cursor-pointer rounded-md text-xs`}
     >
-      {category}
+      {String(category).toUpperCase()}
     </span>
   );
 }
