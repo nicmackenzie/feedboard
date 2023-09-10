@@ -1,4 +1,10 @@
 class Suggestion < ApplicationRecord
-    has_many :comments
-    has_many :categories
+    belongs_to :category
+    belongs_to :user
+    has_many :comments, dependent: :destroy
+
+    validates :title, presence: true
+    validates :description, presence: true
+    validates :category_id, presence: true
+    validates :user_id, presence: true
 end
