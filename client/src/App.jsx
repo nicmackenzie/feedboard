@@ -5,8 +5,10 @@ import Suggestions from './features/suggestions/Suggestions';
 import Suggestion from './features/suggestions/Suggestion';
 import { UserProvider } from './context/user-context';
 import { Toaster } from 'react-hot-toast';
+// import { url } from './utils/constants';
 
 function App() {
+  // console.log(url());
   return (
     <UserProvider>
       <BrowserRouter>
