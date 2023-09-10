@@ -7,5 +7,7 @@ Rails.application.routes.draw do
   post 'login', to: 'users#show'
   delete 'logout', to: 'users#logout'
 
+  post 'upvotes', to: 'upvotes#create'
+
   post 'comments', to:'comments#create'
 end

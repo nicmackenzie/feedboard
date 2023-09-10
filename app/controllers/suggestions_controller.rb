@@ -3,7 +3,13 @@ class SuggestionsController < ApplicationController
     rescue_from ActiveRecord::RecordNotFound, with: :suggestion_not_found
     
     def index
-        render json: Suggestion.all
+        if !params[:category].present? or params[:category] == 'all'
+            render json: Suggestion.all
+        else
+            category = get_category_id(params[:category]).id
+            suggestions = Suggestion.where(category_id: category)
+            render json: suggestions
+        end
     end
 
     def create
@@ -32,6 +38,11 @@ class SuggestionsController < ApplicationController
 
     def suggestion_params
         params.permit(:title, :description,:category_id,:user_id)
+    end
+
+    def get_category_id(category)
+        category = Category.find_by(category: category)
+        return category
     end
 
     def validate_unprocessable_entity(invalid)
