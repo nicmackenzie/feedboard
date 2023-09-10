@@ -9,6 +9,6 @@
 categories = Category.all
 if categories.length == 0 
     puts "🍂Seeding categories..."
-    Category.create([{category: 'UI'},{category: 'UX'},{category: 'Enhancement'},{category: 'Bug'},{category: 'Feature'}])
+    Category.create([{category: 'ui'},{category: 'ux'},{category: 'enhancement'},{category: 'bug'},{category: 'feature'}])
 end
 puts "✅Done seeding..."

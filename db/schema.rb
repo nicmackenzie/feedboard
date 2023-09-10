@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_06_192547) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_09_093002) do
   create_table "categories", force: :cascade do |t|
     t.string "category"
     t.datetime "created_at", null: false
@@ -38,6 +38,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_06_192547) do
     t.index ["category_id"], name: "index_suggestions_on_category_id"
   end
 
+  create_table "upvotes", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "suggestion_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["suggestion_id"], name: "index_upvotes_on_suggestion_id"
+    t.index ["user_id"], name: "index_upvotes_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "user_name"
     t.string "email"
@@ -50,4 +59,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_06_192547) do
   add_foreign_key "comments", "suggestions"
   add_foreign_key "comments", "users"
   add_foreign_key "suggestions", "categories"
+  add_foreign_key "upvotes", "suggestions"
+  add_foreign_key "upvotes", "users"
 end

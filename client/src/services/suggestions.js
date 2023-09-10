@@ -13,9 +13,16 @@ export async function getCategories() {
   }
 }
 
-export async function getSuggestions() {
+export async function getSuggestions(category) {
   try {
-    const { data } = await axios.get(API_URL + '/suggestions');
+    let url = '';
+    if (!category) {
+      url = API_URL + '/suggestions';
+    } else {
+      url = API_URL + '/suggestions?category=' + category;
+    }
+
+    const { data } = await axios.get(url);
 
     return data;
   } catch (error) {
@@ -80,6 +87,18 @@ export async function editSuggestion(id, suggestionDetails) {
       API_URL + '/suggestions/' + id,
       suggestionDetails
     );
+
+    return data;
+  } catch (error) {
+    throw new Error(
+      error.response.data?.errors || 'Something went wrong with this request'
+    );
+  }
+}
+
+export async function upvote(details) {
+  try {
+    const { data } = await axios.post(API_URL + '/upvotes', details);
 
     return data;
   } catch (error) {

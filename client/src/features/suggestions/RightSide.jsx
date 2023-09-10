@@ -5,6 +5,7 @@ import { useUser } from '../../context/user-context';
 import { useGetSuggestions } from './useGetSuggestions';
 import { Category } from './LeftSide';
 import Button from '../../ui/Button';
+import { useUpvote } from './useUpvote';
 
 function RightSide({ onSetDisplayForm }) {
   const { isLoadingSuggestions, suggestions } = useGetSuggestions();
@@ -68,7 +69,11 @@ function Header({ count, onSetDisplayForm, loggedInUser }) {
 export function Suggestion({ suggestion, loggedInUser }) {
   return (
     <article className="bg-white rounded-lg shadow-md p-6 flex items-center gap-8">
-      <UpVoteButton upvotes={suggestion.upvotes} loggedInUser={loggedInUser} />
+      <UpVoteButton
+        upvotes={suggestion.total_votes}
+        loggedInUser={loggedInUser}
+        suggestionId={suggestion.id}
+      />
       <SuggestionDetails
         id={suggestion.id}
         title={suggestion.title}
@@ -100,12 +105,19 @@ function NoRecords() {
   );
 }
 
-function UpVoteButton({ upvotes, loggedInUser }) {
+function UpVoteButton({ upvotes, loggedInUser, suggestionId }) {
+  const { isVoting, upvote } = useUpvote();
+
+  function handleUpVote() {
+    upvote({ user_id: loggedInUser.id, suggestion_id: suggestionId });
+  }
+
   return (
     <button
       type="button"
       className="bg-clr-white-secondary rounded-md text-clr-blue-primary h-16 w-12 flex flex-col items-center justify-center transition-colors hover:bg-clr-white-accent disabled:pointer-events-none disabled:opacity-50"
-      disabled={!loggedInUser}
+      disabled={!loggedInUser || isVoting}
+      onClick={handleUpVote}
     >
       <BiChevronUp size={24} />
       <span className="inline-block text-sm font-semibold text-clr-gray-primary">
