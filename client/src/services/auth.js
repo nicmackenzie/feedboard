@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { API_URL } from '../utils/constants';
+import { url } from '../utils/constants';
 
+const API_URL = url();
 export async function signup(userDetails) {
   try {
     const { data } = await axios.post(API_URL + '/signup', userDetails);
