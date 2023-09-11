@@ -6,15 +6,17 @@ import { useGetSuggestions } from './useGetSuggestions';
 import { Category } from './LeftSide';
 import Button from '../../ui/Button';
 import { useUpvote } from './useUpvote';
+import Loader from '../../ui/Loader';
 
 function RightSide({ onSetDisplayForm }) {
   const { isLoadingSuggestions, suggestions } = useGetSuggestions();
   const { loggedInUser } = useUser();
   if (isLoadingSuggestions)
     return (
-      <p className="text-lg font-bold text-clr-gray-accent">
-        Loading Suggestions...
-      </p>
+      // <p className="text-lg font-bold text-clr-gray-accent">
+      //   Loading Suggestions...
+      // </p>
+      <Loader />
     );
   return (
     <div className="space-y-6">
